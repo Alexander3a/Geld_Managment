@@ -1,5 +1,7 @@
 package de.alex.Geld;
 
+import javax.swing.*;
+
 public class GUI extends JFrame{
     public static final int WIDTH = 1000;
     public static final int HEIGHT = 1000;
@@ -38,7 +40,7 @@ public class GUI extends JFrame{
         return removeButton;
     }
 
-    public void setTree2(javax.swing.JTree tree2) {
+    /*public void setTree2(javax.swing.JTree tree2) {
         if(!Main.Console){
             Libarys.printf(this.tree2 +"");
         }else{
@@ -128,5 +130,5 @@ public class GUI extends JFrame{
         add(jScrollPane1);
         //jScrollPane1.setBounds(new Rectangle(133, 170, 2, 2));
         setVisible(true);
-    }
+    }*/
 }
