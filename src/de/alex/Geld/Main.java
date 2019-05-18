@@ -8,7 +8,6 @@ public class Main {
     public static LoginUI loginUI;
 
     public static void main(String[] args)throws NotImpemented {
-	// write your code here
 
         try{
             Msql.connect();
