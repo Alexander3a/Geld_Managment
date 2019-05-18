@@ -9,7 +9,7 @@ public class Msql {
         public static String host;
         public static String port;
         public static Connection con;
-        public static void connect(){
+        public static void connect()throws SQLException{
             Msql.port = Config.getPort();
             Msql.host = Config.getHost();
             Msql.username = Config.getUsername();

@@ -17,16 +17,16 @@ public class updater {
         updater_thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    PreparedStatement ps = Msql.con.prepareStatement("SE");
-                    ps.setString(1,"asd");
-                    ResultSet rs = ps.executeQuery();
-                    while(rs.next()){
-
-                    }
-                }catch (SQLException e){
-                    e.printStackTrace();
-                }
+                //try {
+                    //PreparedStatement ps = Msql.con.prepareStatement("");
+                    //ps.setString(1,"asd");
+                    //ResultSet rs = ps.executeQuery();
+                    //while(rs.next()){
+                    //
+                    //}
+                //}catch (SQLException e){
+                    //e.printStackTrace();
+                //}
             }
         });
     }

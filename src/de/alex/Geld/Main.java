@@ -1,14 +1,21 @@
 package de.alex.Geld;
 
-import java.nio.charset.Charset;
-import java.util.Random;
+import Exeption.NotImpemented;
+import java.sql.SQLException;
 
 public class Main {
     public static String currend_db = "";
     public static LoginUI loginUI;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws NotImpemented {
 	// write your code here
+
+        try{
+            Msql.connect();
+        }catch (SQLException e){
+            e.printStackTrace();
+            Libarys.printf("Msql Connection Failed");
+        }
         if(Msql.isConnected()) {
             updater.ini();
             updater.Start();
