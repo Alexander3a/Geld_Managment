@@ -29,7 +29,7 @@ public class Main {
                 db_list[0] = "gay";
                 db_list[1] = "test";
                 loginUI = new LoginUI(db_list);
-                Transaction transaction = new Trans("Test","Test","test","test","0","asdasd","26.06.19",System.currentTimeMillis());
+                Transaction transaction = new Trans("Test","Test","test","test","0","12345678","26.06.19",System.currentTimeMillis());
                 System.out.println(transaction);
             }else {
                 System.out.println("updating now");

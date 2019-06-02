@@ -1,5 +1,9 @@
 package de.alex.Geld;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class updater {
     private static Boolean updating = null;
     private static Thread updater_thread = new Thread();
@@ -14,16 +18,16 @@ public class updater {
             @Override
             public void run() {
                 updating = false;
-                //try {
-                    //PreparedStatement ps = Msql.con.prepareStatement("");
-                    //ps.setString(1,"asd");
-                    //ResultSet rs = ps.executeQuery();
-                    //while(rs.next()){
-                    //
-                    //}
-                //}catch (SQLException e){
-                    //e.printStackTrace();
-                //}
+//                try {
+//                    PreparedStatement ps = Msql.con.prepareStatement("");
+//                    ps.setString(1,"asd");
+//                    ResultSet rs = ps.executeQuery();
+//                    while(rs.next()){
+//
+//                    }
+//                }catch (SQLException e){
+//                    e.printStackTrace();
+//                }
             }
         });
     }
