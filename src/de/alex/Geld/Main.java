@@ -1,14 +1,18 @@
 package de.alex.Geld;
 
+import Exeption.MoreThenOneResult;
 import Exeption.NotImpemented;
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main {
     public static String currend_db = "";
     public static LoginUI loginUI;
+    public static int CurrentMaxId = -1;
+    public static int CurrentNextid = -1;
 
     public static void main(String[] args)throws NotImpemented {
-
         try{
             Msql.connect();
         }catch (SQLException e){
@@ -29,11 +33,35 @@ public class Main {
                 db_list[0] = "gay";
                 db_list[1] = "test";
                 loginUI = new LoginUI(db_list);
-                //System.out.println(Transaction_Api.makesmapletrans());
-                for(int i = 0;i< Transaction_Api.getTransbyDb("test").length  ;i++){
-                    Trans trans = Transaction_Api.getTransbyDb("test")[i];
-                    System.out.println(i+" "+trans);
+                //Api testing part start
+
+
+
+
+
+
+
+                Trans trans = null;
+                Libarys.switchdb("test");
+                try {
+                    trans = Transaction_Api.getTransbyID(currend_db,"12345678");
+                }catch (MoreThenOneResult e){
+                    e.printStackTrace();
                 }
+                System.out.println(trans);
+
+
+
+
+
+
+
+
+
+
+
+
+                //Api testing part end
             }else {
                 System.out.println("updating now");
             }
