@@ -1,6 +1,6 @@
 package de.alex.Geld;
 
-public class Transaction {
+public class Transaction{
     String Betrag;
     String Beschreibung;
     String Davor;
