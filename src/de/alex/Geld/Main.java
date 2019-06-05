@@ -41,11 +41,11 @@ public class Main {
 
 
 
-                Trans trans = null;
+                Database trans = null;
                 Libarys.switchdb("test");
                 try {
-                    trans = Transaction_Api.getTransbyID(currend_db,"12345678");
-                }catch (MoreThenOneResult e){
+                    trans = Transaction_Api.getDbbyName("test");
+                }catch (SQLException e){
                     e.printStackTrace();
                 }
                 System.out.println(trans);
