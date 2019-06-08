@@ -1,10 +1,7 @@
 package de.alex.Geld;
 
-import Exeption.MoreThenOneResult;
 import Exeption.NotImpemented;
 import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Main {
     public static String currend_db = "";
@@ -41,14 +38,7 @@ public class Main {
 
 
 
-                Database trans = null;
-                Libarys.switchdb("test");
-                try {
-                    trans = Transaction_Api.getDbbyName("test");
-                }catch (SQLException e){
-                    e.printStackTrace();
-                }
-                System.out.println(trans);
+                System.out.println(Transaction_Api.CalcDanach("-00.10€","01.00€"));
 
 
 

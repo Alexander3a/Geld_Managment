@@ -115,4 +115,26 @@ public class Transaction_Api {
             System.out.println("Deliting failed "+ transaction);
         }
     }
+    public static String CalcDanach(String Betrag,String Davor){
+        String buf = Davor;
+        if(buf.startsWith("+")){
+            buf = buf.replace('+',' ');
+        }
+        if(buf.endsWith("€")){
+            buf = buf.replace('€',' ');
+        }
+//        if(Davor.startsWith("-")){
+//            Davor.replace('-',' ');
+//        }
+        Double Davor_ = Double.valueOf(buf);
+        buf = Betrag;
+        if(buf.startsWith("+")){
+            buf = buf.replace('+',' ');
+        }
+        if(buf.endsWith("€")){
+            buf = buf.replace('€',' ');
+        }
+        Double Betrag_ = Double.valueOf(buf);
+        return (Davor_+Betrag_)+"";
+    }
 }
