@@ -9,7 +9,7 @@ public class Main {
     public static int CurrentMaxId = -1;
     public static int CurrentNextid = -1;
 
-    public static void main(String[] args)throws NotImpemented {
+    public static void main(String[] args)throws NotImpemented, SQLException {
         try{
             Msql.connect();
         }catch (SQLException e){
@@ -38,7 +38,12 @@ public class Main {
 
 
 
-                System.out.println(Transaction_Api.CalcDanach("-00.10€","01.00€"));
+
+
+
+
+
+
 
 
 

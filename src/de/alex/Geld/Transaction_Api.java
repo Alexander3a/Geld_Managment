@@ -5,6 +5,10 @@ import Exeption.MoreThenOneResult;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Transaction_Api {
 //    public static Transaction makesmapletrans(){
@@ -136,5 +140,13 @@ public class Transaction_Api {
         }
         Double Betrag_ = Double.valueOf(buf);
         return (Davor_+Betrag_)+"";
+    }
+    public static String getCurrentDate(){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        return formatter.format(date)+"";
+    }
+    public static String getCurrentDb(){
+        return Main.currend_db;
     }
 }
