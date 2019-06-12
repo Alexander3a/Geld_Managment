@@ -21,7 +21,7 @@ public class LoginUI extends JFrame{
         setSize(450, 150);
         setTitle("Login Window");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(MainPannel);
         //Database_Selecter.addItem("Alex_Money1");
         //Database_Selecter.addItem("Testbase");
@@ -32,10 +32,6 @@ public class LoginUI extends JFrame{
         if(datebase_list.length == 0){
             Database_Selecter.addItem(no_db_error);
         }
-
-
-
-
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

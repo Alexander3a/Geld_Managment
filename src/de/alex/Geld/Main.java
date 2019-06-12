@@ -30,34 +30,14 @@ public class Main {
                 db_list[0] = "gay";
                 db_list[1] = "test";
                 loginUI = new LoginUI(db_list);
-                //Api testing part start
+               //Api testing part start
+                Transaction trans = new Transaction("+00.00€","Start Chain Block","+00.00€","+00.00€","0","0",Transaction_Api.getCurrentDate(),System.currentTimeMillis(),"test");
 
+//               int oof = Transaction_Api.CalcMaxIdperlastId("test");
+//               System.out.println(oof);
+               Transaction_Api.SendTranstoServer(trans);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                //Api testing part end
+               //Api testing part end
             }else {
                 System.out.println("updating now");
             }

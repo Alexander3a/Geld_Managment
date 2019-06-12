@@ -83,6 +83,25 @@ public class Transaction_Api {
         return buffer;
     }
     public static void SendTranstoServer(Transaction transaction)throws SQLException {
+        PreparedStatement ps2 = Msql.con.prepareStatement("SELECT * FROM `geld_db`.`TransTable` WHERE `Betrag`=? AND `Beschreibung`=? AND `Davor`=? AND `Danach`=? AND `Silent`=? AND `Id`=? AND `Datum`=? AND `Time`=? AND `Db`=?");
+        ps2.setString(1, transaction.getBetrag());
+        ps2.setString(2, transaction.getBeschreibung());
+        ps2.setString(3, transaction.getDavor());
+        ps2.setString(4, transaction.getDanach());
+        ps2.setString(5, transaction.getSilent());
+        ps2.setString(6, transaction.getId());
+        ps2.setString(7, transaction.getDatum());
+        ps2.setString(8, transaction.getMills()+"");
+        ps2.setString(9, transaction.getDb());
+        ResultSet rs2 = ps2.executeQuery();
+        Boolean found_shit = false;
+        while(rs2.next()){
+            found_shit = true;
+        }
+        if(found_shit){
+            System.out.println("Failed to send "+ transaction);
+            throw new SQLException("Object allready exists");
+        }
         PreparedStatement ps = Msql.con.prepareStatement("INSERT INTO `geld_db`.`TransTable` (`Betrag`, `Beschreibung`, `Davor`, `Danach`, `Silent`, `Id`, `Datum`, `Time`, `Db`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setString(1, transaction.getBetrag());
         ps.setString(2, transaction.getBeschreibung());
@@ -99,6 +118,25 @@ public class Transaction_Api {
     public static void DeleteTransformServer(Transaction transaction){
         Boolean failed = false;
         try {
+            PreparedStatement ps2 = Msql.con.prepareStatement("SELECT * FROM `geld_db`.`TransTable` WHERE `Betrag`=? AND `Beschreibung`=? AND `Davor`=? AND `Danach`=? AND `Silent`=? AND `Id`=? AND `Datum`=? AND `Time`=? AND `Db`=?");
+            ps2.setString(1, transaction.getBetrag());
+            ps2.setString(2, transaction.getBeschreibung());
+            ps2.setString(3, transaction.getDavor());
+            ps2.setString(4, transaction.getDanach());
+            ps2.setString(5, transaction.getSilent());
+            ps2.setString(6, transaction.getId());
+            ps2.setString(7, transaction.getDatum());
+            ps2.setString(8, transaction.getMills()+"");
+            ps2.setString(9, transaction.getDb());
+            ResultSet rs2 = ps2.executeQuery();
+            Boolean found_shit = false;
+            while(rs2.next()){
+                if(found_shit){
+                    failed = true;
+                }else{
+                    found_shit = true;
+                }
+            }
             PreparedStatement ps = Msql.con.prepareStatement("DELETE FROM `geld_db`.`TransTable` WHERE `Betrag`=? AND `Beschreibung`=? AND `Davor`=? AND `Danach`=? AND `Silent`=? AND `Id`=? AND `Datum`=? AND `Time`=? AND `Db`=?");
             ps.setString(1, transaction.getBetrag());
             ps.setString(2, transaction.getBeschreibung());
@@ -116,7 +154,7 @@ public class Transaction_Api {
         if(!failed){
             System.out.println("Succsesfully Deleted "+ transaction);
         }else{
-            System.out.println("Deliting failed "+ transaction);
+            System.out.println("Failed to Delete "+ transaction);
         }
     }
     public static String CalcDanach(String Betrag,String Davor){
@@ -148,5 +186,42 @@ public class Transaction_Api {
     }
     public static String getCurrentDb(){
         return Main.currend_db;
+    }
+    public static int CalcMaxIdperlenght(String Db)throws SQLException{
+        return Transaction_Api.getTransbyDb(Db).length;
+    }
+    public static int CalcNextIdperlenght(String Db)throws SQLException{
+        return CalcMaxIdperlenght(Db)+1;
+    }
+    public static int CalcMaxIdperlastId(String Db)throws SQLException{
+       int MaxId = 0;
+       int tryid = 1;
+       Boolean canceled = false;
+       Boolean global_error = false;
+       while (!canceled){
+           PreparedStatement ps = Msql.con.prepareStatement("SELECT * FROM `geld_db`.`TransTable` WHERE `Db`=? AND `Id`=?");
+           ps.setString(1,Db);
+           ps.setString(2,tryid+"");
+           ResultSet rs = ps.executeQuery();
+           Boolean Error = false;
+           while(rs.next()){
+               if(Error){
+                   global_error = true;
+               }
+               Error = true;
+               MaxId++;
+               tryid++;
+           }
+           if(!Error){
+               canceled = true;
+           }
+       }
+       if(global_error){
+           throw new SQLException();
+       }
+       return MaxId;
+    }
+    public static int CalcNextIdperlastId(String Db)throws SQLException{
+        return CalcMaxIdperlastId(Db)+1;
     }
 }

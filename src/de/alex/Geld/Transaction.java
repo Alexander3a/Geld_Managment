@@ -12,7 +12,7 @@ public class Transaction extends Trans_Obj {
     private String datum = "";
     private Long mills = 0L;
     private String db = "";
-    public Transaction(String Betrag2, String Beschreibung, String Davor, String Danach, String Silent, String id23, String Datum, Long Mills, @NotNull String Db){
+    public Transaction(String Betrag2, String Beschreibung, String Davor, String Danach, String Silent, String Id, String Datum, Long Mills, @NotNull String Db){
         datum = Datum;
         mills = Mills;
         betrag = Betrag2;
@@ -20,7 +20,7 @@ public class Transaction extends Trans_Obj {
         davor = Davor;
         danach = Danach;
         silent = Silent;
-        id = id23;
+        id = Id;
         db = Db;
         //System.out.println(id+id23);
     }
