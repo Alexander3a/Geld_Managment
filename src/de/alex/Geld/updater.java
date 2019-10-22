@@ -18,6 +18,7 @@ public class updater {
             @Override
             public void run() {
                 updating = false;
+
 //                try {
 //                    PreparedStatement ps = Msql.con.prepareStatement("");
 //                    ps.setString(1,"asd");
