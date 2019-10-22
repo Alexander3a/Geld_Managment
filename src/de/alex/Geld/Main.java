@@ -8,39 +8,48 @@ public class Main {
     public static LoginUI loginUI;
     public static int CurrentMaxId = -1;
     public static int CurrentNextid = -1;
+    public static User user;
 
     public static void main(String[] args)throws NotImpemented, SQLException {
-        try{
-            Msql.connect();
-        }catch (SQLException e){
+//        try{
+//            Msql.connect();
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//            Libarys.printf("Msql Connection Failed");
+//        }
+        Login.run();
+
+    }
+    public static void loggedin(){
+        try {
+            if(Msql.isConnected()) {
+                updater.ini();
+                updater.Start();
+
+                while (updater.isupdating() != false){
+                    int trash = 1;
+                    trash = 2;
+                    System.out.println("still updating");
+                }
+                if (!updater.isupdating()) {
+
+                    //loginUI = new LoginUI(db_list);
+                    //Api testing part start
+                    System.out.println("Well u made it");
+                    System.out.println("The user: ");
+                    System.out.println("Name: "+user.getUsername());
+                    System.out.println("Admin: "+user.getAdmin());
+                    System.out.println("Uuid: "+user.getUuid());
+                    System.out.println("Current database: "+Main.currend_db);
+
+
+                    //Api testing part end
+                }else {
+                    System.out.println("updating now");
+                }
+            }
+        }catch (Exception e){
             e.printStackTrace();
-            Libarys.printf("Msql Connection Failed");
-        }
-        if(Msql.isConnected()) {
-            updater.ini();
-            updater.Start();
-
-            while (updater.isupdating() != false){
-                int trash = 1;
-                trash = 2;
-                System.out.println("still updating");
-            }
-            if (!updater.isupdating()) {
-                String[] db_list = new String[2];
-                db_list[0] = "gay";
-                db_list[1] = "test";
-                loginUI = new LoginUI(db_list);
-               //Api testing part start
-                Transaction trans = new Transaction("+00.00€","Start Chain Block","+00.00€","+00.00€","0","0",Transaction_Api.getCurrentDate(),System.currentTimeMillis(),"test");
-
-//               int oof = Transaction_Api.CalcMaxIdperlastId("test");
-//               System.out.println(oof);
-               Transaction_Api.SendTranstoServer(trans);
-
-               //Api testing part end
-            }else {
-                System.out.println("updating now");
-            }
         }
     }
 }

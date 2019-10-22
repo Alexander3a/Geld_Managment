@@ -35,10 +35,9 @@ public class LoginUI extends JFrame{
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Loggin.username = UsernameField.getText();
-                //Loggin.password = PasswordField.getText();
-                setVisible(false);
                 Main.currend_db = Main.loginUI.getDatabase_Selecter().getModel().getSelectedItem()+"";
+                Login.ontrylog(UsernameField.getText(),PasswordField.getText());
+                setVisible(false);
             }
         });
     }
