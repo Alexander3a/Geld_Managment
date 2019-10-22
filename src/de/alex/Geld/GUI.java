@@ -68,5 +68,6 @@ public class GUI extends JFrame{
         //MainPannel.add(scrollPane);
         setContentPane(MainPannel);
 
+
     }
 }
