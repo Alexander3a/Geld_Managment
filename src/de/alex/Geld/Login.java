@@ -6,9 +6,7 @@ import java.sql.SQLException;
 
 public class Login {
     public static void run(){
-        String[] db_list = new String[2];
-        db_list[0] = "gay";
-        db_list[1] = "test";
+        String[] db_list = new String[0];
         Main.loginUI = new LoginUI(db_list);
     }
     public static void ontrylog(String username,String password){

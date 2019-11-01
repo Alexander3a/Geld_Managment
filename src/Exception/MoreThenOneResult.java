@@ -1,4 +1,4 @@
-package Exeption;
+package Exception;
 
 public class MoreThenOneResult extends Exception{
     int id;

@@ -1,6 +1,7 @@
 package de.alex.Geld;
 
-import Exeption.MoreThenOneResult;
+import Exception.MoreThenOneResult;
+import Exception.ResultException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +52,9 @@ public class Transaction_Api {
         }
         Database database = new Database(buffer,Db_name,null);
 
-        database.setMaxId(overridden+"");
+        database.setMaxId(overridden+""); //old idk why not working
+        database.setMaxId(String.valueOf(buffer.length));
+        database.setMaxId((Integer.valueOf(database.getMaxId())-1)+"");
         return database;
     }
     public static Transaction getTransbyID(String Db, String id)throws MoreThenOneResult{
@@ -223,5 +226,169 @@ public class Transaction_Api {
     }
     public static int CalcNextIdperlastId(String Db)throws SQLException{
         return CalcMaxIdperlastId(Db)+1;
+    }
+    public static Database[] getalldb(){
+        try {
+            Database[] buff = new Database[0];
+            PreparedStatement ps = Msql.con.prepareStatement("SELECT * FROM `geld_db`.`DbPropertys`");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Database[] buffer = new Database[buff.length+1];
+                for(int i = 0;i< buff.length  ;i++){
+                    buffer[i] = buff[i];
+                }
+                buffer[buff.length] = getDbbyName(rs.getString("Db_Name"));
+                buff = buffer;
+            }
+            return buff;
+        }catch (Exception e){
+            return null;
+        }
+    }
+    public static void updatedbmaxid(Database db,int new_id){
+        try {
+            PreparedStatement ps = Msql.con.prepareStatement("UPDATE `DbPropertys` SET `MaxId`=? WHERE `Db_Name`=?");
+            ps.setString(1,new_id+"");
+            ps.setString(2,db.getDbname());
+            ps.execute();
+        }catch (Exception e){
+
+        }
+    }
+    public static void updatemaxprop(Database db){
+        updatedbmaxid(db,db.getTrans().size()-1);
+    }
+    public static void recalcTrans(Transaction trans,String Davor){
+        System.out.println("Old: "+trans);
+        //DeleteTransformServer(trans);
+        trans.Davor = Davor;
+        trans.Danach = Transaction_Api.CalcDanach(trans.getBetrag(),Davor);
+        try {
+            PreparedStatement ps = Msql.con.prepareStatement("UPDATE `TransTable` SET `Davor`=?,`Danach`=? WHERE `Db`=? AND `Id`=?");
+            ps.setString(1,Davor);
+            ps.setString(2,Transaction_Api.CalcDanach(trans.getBetrag(),Davor));
+            ps.setString(3,trans.getDb());
+            ps.setString(4,trans.getId());
+            ps.execute();
+            System.out.println("New: "+getTransbyID(trans.getDb(),trans.getId()));
+        } catch (SQLException | MoreThenOneResult e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static Boolean add(String db,String Betrag,String Beschreibeung){
+        Long Mills = System.currentTimeMillis();
+        Database cdb;
+        if(Betrag.contains("+-")){
+            Betrag = Betrag.replace("+-","-");
+        }
+        try {
+            cdb = Transaction_Api.getDbbyName(db);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        Transaction ltrans = null;
+        try {
+            if(cdb.getMaxId().equals("-1")){
+                ltrans = new Transaction("+0.00","Start Chain Block","0.00","0.00","0","0","12.06.19",1560346309101L,cdb.getDbname());
+            }else{
+                ltrans = findlasttrans(new Transaction("0,00","If this appers anywhere this is a bug pls report ty","idk","ikd","idk",(Integer.valueOf(cdb.getMaxId())+1)+"","test",10L,cdb.getDbname()));
+            }
+            if(ltrans == null){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        String silent = "0";
+        if(Beschreibeung.contains("-s") && Main.user.getSilent()){
+            Beschreibeung = Beschreibeung.replace("-s","");
+            silent = "1";
+        }
+        try {
+            Transaction_Api.updatemaxprop(cdb);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        String today = formatter.format(date);
+        String Datum = today+"";
+        Transaction trans = new Transaction(Betrag,Beschreibeung,ltrans.getDanach(),Transaction_Api.CalcDanach(Betrag,ltrans.getDanach()),silent,(Integer.valueOf(cdb.getMaxId())+1)+"",Datum,Mills,db);
+        try{
+            Transaction_Api.SendTranstoServer(trans);
+            Transaction newtrans = Transaction_Api.getTransbyID(db,(Integer.valueOf(cdb.getMaxId())+1)+"");
+            Transaction_Api.updatemaxprop(Transaction_Api.getDbbyName(db));
+            System.out.println("Old: "+trans);
+            System.out.println("New: "+newtrans);
+            if(!newtrans.toString().equals(trans.toString())){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    public static void update_silent(Transaction trans,String new_Silent){
+        Transaction Strans = null;
+        try{
+            Strans = getTransbyID(trans.getDb(),trans.getId());
+
+        }catch (Exception e){
+
+        }
+        if(Strans == null){
+            throw new NullPointerException();
+        }
+        if(Strans.toString().equals(trans.toString())){
+            System.out.println("Old: "+trans);
+            //DeleteTransformServer(trans);
+
+            try {
+                PreparedStatement ps = Msql.con.prepareStatement("UPDATE `TransTable` SET `Silent`=? WHERE `Db`=? AND `Id`=?");
+                ps.setString(1,new_Silent);
+                ps.setString(2,trans.getDb());
+                ps.setString(3,trans.getId());
+                ps.execute();
+                System.out.println("New: "+getTransbyID(trans.getDb(),trans.getId()));
+            } catch (SQLException | MoreThenOneResult e) {
+                e.printStackTrace();
+            }
+        }else{
+            throw new ResultException(0,"update_silent");
+        }
+    }
+    public static Boolean proper_delete(Transaction trans){
+        try{
+            Database db = Transaction_Api.getDbbyName(trans.getDb());
+            System.out.println("Updating: "+trans.getId());
+            update_silent(trans,"2");
+            for(int i = Integer.valueOf(trans.getId())+1;i<= Integer.valueOf(db.getMaxId())  ;i++){
+                recalcTrans(getTransbyID(trans.getDb(),i+""),findlasttrans(trans).getDanach());
+                System.out.println("Fixing: "+i);
+            }
+        }catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+    public static Transaction findlasttrans(Transaction trans){
+        try{
+            Transaction pltrans = Transaction_Api.getTransbyID(trans.getDb(),(Integer.valueOf(trans.getId())-1)+"");
+            if(pltrans.getSilent().equals("2")){
+                Transaction transaction = findlasttrans(pltrans);
+                return transaction;
+            }else{
+                return pltrans;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

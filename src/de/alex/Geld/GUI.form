@@ -48,6 +48,12 @@
               <text value="Show Deleted Transactions"/>
             </properties>
           </component>
+          <component id="f27c0" class="javax.swing.JButton" binding="Switch_db">
+            <constraints/>
+            <properties>
+              <text value="Switch Database"/>
+            </properties>
+          </component>
         </children>
       </toolbar>
       <component id="ff77d" class="javax.swing.JLabel" binding="Text">

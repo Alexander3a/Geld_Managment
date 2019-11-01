@@ -1,6 +1,6 @@
 package de.alex.Geld;
 
-import Exeption.NotImpemented;
+import Exception.NotImpemented;
 import com.sun.istack.internal.NotNull;
 
 public class Libarys {

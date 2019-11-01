@@ -1,6 +1,10 @@
 package de.alex.Geld;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GUI extends JFrame{
     public static final int WIDTH = 1000;
@@ -15,6 +19,8 @@ public class GUI extends JFrame{
     private JButton removeButton;
     private JTextArea Search;
     private JScrollPane ScrollPane;
+    private JButton Switch_db;
+    private Long last;
 
     public JTextArea getSearch() {
         return Search;
@@ -69,5 +75,77 @@ public class GUI extends JFrame{
         setContentPane(MainPannel);
 
 
+        Search.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.paramString().toString().contains("keyChar=Eingabe")){
+                    Search.setText(Search.getText().replaceAll("\n",""));
+                    if(last == null){
+                        last = System.currentTimeMillis();
+                    }
+                    if(System.currentTimeMillis()-last > 250){
+                        Nodes.reload(Search.getText());
+                    }
+                    last = System.currentTimeMillis();
+                    return;
+                }
+                super.keyTyped(e);
+            }
+        });
+        Switch_db.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                Main.switchdb();
+            }
+        });
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.addWindow = new AddWindow();
+            }
+        });
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String current = tree2.getSelectionModel().getLeadSelectionPath().toString();
+                String[] cut = current.split(",");
+                try {
+                    current = cut[2];
+                    current = current.replace("]","");
+                    current = current.replace(" Id: ","");
+                    int id = Integer.valueOf(current);
+                    System.out.println("Selection: "+id);
+                    Transaction trans = Transaction_Api.getTransbyID(Main.currend_db,id+"");
+                    int confirm = JOptionPane.showConfirmDialog(null,"Are u shure u want to delete "+trans);
+                    if(confirm==0){
+                        Boolean delete = Transaction_Api.proper_delete(trans);
+                        if(!delete){
+                            JOptionPane.showMessageDialog(null,"Failed");
+                            Nodes.reload();
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Succsesfully done");
+                            Nodes.reload();
+                        }
+                    }
+                }catch (Exception ee){
+                    JOptionPane.showMessageDialog(null,"Pls select the Id Tree and then click remove");
+                }
+
+
+            }
+        });
+        Silent_Box.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Nodes.reload_s(Silent_Box.isSelected());
+            }
+        });
+        Delete_Box.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Nodes.reload_r(Delete_Box.isSelected());
+            }
+        });
     }
 }

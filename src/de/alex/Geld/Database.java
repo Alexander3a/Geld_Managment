@@ -21,7 +21,18 @@ public class Database extends Db{
 
     }
     public String toString() {
-        return "Database: "+Dbname+" with "+MaxId+"x Transactions";
+        String f = "";
+        if(trans != null){
+            for(int i = 0;i< trans.size()  ;i++){
+                Transaction transaction = trans.get(i);
+                f += "\n"+transaction;
+            }
+        }
+        if(f.equals("")){
+            return "Database: "+Dbname+" with "+(Integer.valueOf(MaxId)+1)+""+"x Transactions";
+        }else{
+            return "Database: "+Dbname+" with "+(Integer.valueOf(MaxId)+1)+"x Transactions"+f;
+        }
     }
 
     public HashMap<Integer, Transaction> getTrans() {

@@ -1,4 +1,4 @@
-package Exeption;
+package Exception;
 
 public class NotImpemented extends Exception{
     int id;

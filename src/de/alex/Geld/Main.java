@@ -1,6 +1,6 @@
 package de.alex.Geld;
 
-import Exeption.NotImpemented;
+import Exception.NotImpemented;
 import java.sql.SQLException;
 
 public class Main {
@@ -11,6 +11,8 @@ public class Main {
     public static User user;
     public static GUI gui;
     public final static Boolean Api_test = false;
+    public static Select_db select_db;
+    public static AddWindow addWindow;
 
     public static void main(String[] args)throws NotImpemented, SQLException {
 //        try{
@@ -34,24 +36,12 @@ public class Main {
                     System.out.println("still updating");
                 }
                 if (!updater.isupdating()) {
-
-                    //loginUI = new LoginUI(db_list);
-                    //Api testing part start
-                    if(!Api_test){
-                        System.out.println("Well u made it");
-                        System.out.println("The user: ");
-                        System.out.println("Name: "+user.getUsername());
-                        System.out.println("Admin: "+user.getAdmin());
-                        System.out.println("Uuid: "+user.getUuid());
-                        System.out.println("Current database: "+Main.currend_db);
-                        gui = new GUI();
-                        Nodes.start(user.getSilent(),user.getSilent());
-                    }else{
-                        Transaction transaction = new Transaction("+1.00","first test","0.00",Transaction_Api.CalcDanach("+1.00","0.00"),"false","1","22.10.19",8712409L,Main.currend_db);
-                        Transaction_Api.SendTranstoServer(transaction);
-                        System.out.println("send");
+                    Database[] databases = Transaction_Api.getalldb();
+                    String[] dbs = new String[databases.length];
+                    for(int i = 0;i< databases.length  ;i++){
+                        dbs[i] = databases[i].getDbname();
                     }
-                    //Api testing part end
+                    select_db = new Select_db(dbs);
                 }else {
                     System.out.println("updating now");
                 }
@@ -59,5 +49,43 @@ public class Main {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public static void ondbselect(){
+        //Api testing part start
+        if(!Api_test){
+
+            System.out.println("Well u made it");
+            System.out.println("The user: ");
+            System.out.println("Name: "+user.getUsername());
+            System.out.println("Admin: "+user.getAdmin());
+            System.out.println("Uuid: "+user.getUuid());
+            System.out.println("Current database: "+Main.currend_db);
+            gui = new GUI();
+            gui.getDelete_Box().setVisible(user.getDebug());
+            gui.getSilent_Box().setVisible(user.getSilent());
+            gui.getDelete_Box().setVisible(user.getDebug());
+            gui.getAddButton().setVisible(!user.getRead_only());
+            gui.getRemoveButton().setVisible(user.getDebug());
+            Nodes.start(false,false,"");
+        }else{
+            gui = new GUI();
+            Nodes.start(true,true,"");
+                try {
+                    Transaction_Api.proper_delete(Transaction_Api.getTransbyID("test","2"));
+                }catch (Exception e){
+                    System.out.println("aids");
+                }
+        }
+        //Api testing part end
+    }
+    public static void switchdb(){
+        Main.gui = null;
+        Main.select_db = null;
+        Database[] databases = Transaction_Api.getalldb();
+        String[] dbs = new String[databases.length];
+        for(int i = 0;i< databases.length  ;i++){
+            dbs[i] = databases[i].getDbname();
+        }
+        select_db = new Select_db(dbs);
     }
 }
