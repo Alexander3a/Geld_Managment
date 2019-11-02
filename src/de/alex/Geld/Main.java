@@ -1,6 +1,10 @@
 package de.alex.Geld;
 
 import Exception.NotImpemented;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class Main {
@@ -13,6 +17,8 @@ public class Main {
     public final static Boolean Api_test = false;
     public static Select_db select_db;
     public static AddWindow addWindow;
+    public static final String ver = "1Release";
+    public static String todb = "";
 
     public static void main(String[] args)throws NotImpemented, SQLException {
 //        try{
@@ -21,7 +27,31 @@ public class Main {
 //            e.printStackTrace();
 //            Libarys.printf("Msql Connection Failed");
 //        }
-        Login.run();
+        String username = "";
+        String password = "";
+        for(int i = 0;i< args.length  ;i++){
+            if(args[i].equals("-old")){
+                String filename = args[i+1].replaceAll("%20","\\ ")+".jar";
+                File file = new File(System.getProperty("user.dir")+"\\"+filename);
+                file.delete();
+                System.out.println("Deleted: "+file.getAbsolutePath());
+                //JOptionPane.showMessageDialog(null,"Deleted: "+ file.getAbsolutePath());
+            }
+            if(args[i].equals("-u")){
+                username = args[i+1];
+            }
+            if(args[i].equals("-p")){
+                password = args[i+1];
+            }
+            if(args[i].equals("-d")){
+                todb = args[i+1];
+            }
+        }
+        if(!(!username.equals("") && !password.equals(""))){
+            Login.run();
+        }else{
+            Login.ontrylog(username,password);
+        }
 
     }
     public static void loggedin(){
@@ -61,11 +91,10 @@ public class Main {
             System.out.println("Uuid: "+user.getUuid());
             System.out.println("Current database: "+Main.currend_db);
             gui = new GUI();
-            gui.getDelete_Box().setVisible(user.getDebug());
+            gui.getDelete_Box().setVisible(user.getAdmin());
             gui.getSilent_Box().setVisible(user.getSilent());
-            gui.getDelete_Box().setVisible(user.getDebug());
             gui.getAddButton().setVisible(!user.getRead_only());
-            gui.getRemoveButton().setVisible(user.getDebug());
+            gui.getRemoveButton().setVisible(user.getAdmin());
             Nodes.start(false,false,"");
         }else{
             gui = new GUI();

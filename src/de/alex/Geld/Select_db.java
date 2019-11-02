@@ -25,6 +25,16 @@ public class Select_db extends JFrame{
         if(datebase_list.length == 0){
             Database_Selecter.addItem(no_db_error);
         }
+        if(!Main.todb.equals("")){
+            for(int i = 0;i< datebase_list.length  ;i++){
+                if(Main.todb.equals(datebase_list[i])){
+                    Main.currend_db = Main.todb;
+                    setVisible(false);
+                    Main.ondbselect();
+                }
+            }
+            Main.todb = "";
+        }
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
