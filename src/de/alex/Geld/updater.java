@@ -1,6 +1,5 @@
 package de.alex.Geld;
 
-import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -8,9 +7,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class updater {
     private static Boolean updating = null;
@@ -35,8 +31,14 @@ public class updater {
                     }
                     Libarys.download("http://ts3byalex.ddns.net/pw/geld_ver.txt",temp.getAbsolutePath());
                     BufferedReader br = new BufferedReader(new FileReader(temp.getAbsolutePath()));
+//                    String line = br.readLine();
+//                    while (line != null){
+//                        System.out.println(line);
+//                        line = br.readLine();
+//                    }
                     if(!br.readLine().equals(Main.ver)){
                         br.close();
+                        System.out.println(Main.ver+"|"+br.readLine());
                         if(Files.exists(Paths.get(temp.getAbsolutePath()))){
                             Files.delete(Paths.get(temp.getAbsolutePath()));
                         }else{

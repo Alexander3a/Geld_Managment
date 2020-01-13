@@ -9,14 +9,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Libarys {
-    public static void printf(@NotNull String Text,@NotNull Boolean Con,@NotNull Boolean Gui) throws NotImpemented{
+    private static String cText = "";
+    public static void printf(@NotNull String Text,@NotNull Boolean Con,@NotNull Boolean Gui,Boolean log){
 
         if(Con){
             System.out.println(Text);
 
         }
         if(Gui){
-            throw new NotImpemented(1,"Gui not Impemented");
+            if(Main.user.getLog()){
+                Main.gui.getText().setText(Libarys.ntoHtlm(cText+Text+"\n"));
+                cText = cText+Text+"\n";
+            }else{
+                Main.gui.getText().setText(Libarys.ntoHtlm(cText+Text+"\n"));
+                cText = cText+Text+"\n";
+            }
         }
     }
 
@@ -38,5 +45,19 @@ public class Libarys {
                 return;
             }
         }
+    }
+    public static String ntoHtlm(String input){
+        String[] split = input.split("\n");
+        String out = "<html>";
+        for(int i = 0;i< split.length  ;i++){
+            if(out.equals("<html>")){
+                out = out+split[i];
+            }else{
+                out = out+"<br>"+split[i];
+            }
+        }
+        out = out+"</html>";
+        return out;
+
     }
 }

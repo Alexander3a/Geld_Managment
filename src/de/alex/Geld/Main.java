@@ -2,9 +2,7 @@ package de.alex.Geld;
 
 import Exception.NotImpemented;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class Main {
@@ -96,6 +94,7 @@ public class Main {
             gui.getAddButton().setVisible(!user.getRead_only());
             gui.getRemoveButton().setVisible(user.getAdmin());
             Nodes.start(false,false,"");
+            Libarys.printf("Welcome "+user.getUsername(),false,true,false);
         }else{
             gui = new GUI();
             Nodes.start(true,true,"");

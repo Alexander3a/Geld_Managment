@@ -1,14 +1,15 @@
 package de.alex.Geld;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class GUI extends JFrame{
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 1000;
+    public static final int WIDTH = Integer.valueOf(Math.round(Toolkit.getDefaultToolkit().getScreenSize().width*0.5)+"");
+    public static final int HEIGHT = Integer.valueOf(Math.round(Toolkit.getDefaultToolkit().getScreenSize().height*0.8)+"");
     private JPanel MainPannel;
     private JLabel Text;
     private javax.swing.JTree tree2;
@@ -65,7 +66,9 @@ public class GUI extends JFrame{
 
     public GUI(){
         setVisible(true);
-        setSize(WIDTH, HEIGHT);
+        setSize(WIDTH,HEIGHT);
+
+
         setTitle("Life sucks");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,7 +81,7 @@ public class GUI extends JFrame{
         Search.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if(e.paramString().toString().contains("keyChar=Eingabe")){
+                if(e.paramString().toString().contains("keyChar=Eingabe") || e.paramString().toString().contains("keyChar=Enter")){
                     Search.setText(Search.getText().replaceAll("\n",""));
                     if(last == null){
                         last = System.currentTimeMillis();

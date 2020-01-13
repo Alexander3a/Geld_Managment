@@ -252,7 +252,7 @@ public class Transaction_Api {
             ps.setString(2,db.getDbname());
             ps.execute();
         }catch (Exception e){
-
+            
         }
     }
     public static void updatemaxprop(Database db){
@@ -368,7 +368,10 @@ public class Transaction_Api {
             System.out.println("Updating: "+trans.getId());
             update_silent(trans,"2");
             for(int i = Integer.valueOf(trans.getId())+1;i<= Integer.valueOf(db.getMaxId())  ;i++){
-                recalcTrans(getTransbyID(trans.getDb(),i+""),findlasttrans(trans).getDanach());
+                Transaction last = findlasttrans(trans);
+                Transaction current =getTransbyID(trans.getDb(),i+"");
+                recalcTrans(current,last.getDanach());
+                trans = current;
                 System.out.println("Fixing: "+i);
             }
         }catch (Exception e){
