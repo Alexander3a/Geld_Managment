@@ -15,7 +15,7 @@ public class Main {
     public final static Boolean Api_test = false;
     public static Select_db select_db;
     public static AddWindow addWindow;
-    public static final String ver = "1Release";
+    public static final String ver = "1.2Release";
     public static String todb = "";
 
     public static void main(String[] args)throws NotImpemented, SQLException {
