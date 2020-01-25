@@ -1,6 +1,6 @@
 package de.alex.Geld;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class Transaction extends Trans_Obj {
     private String betrag = "";

@@ -12,7 +12,7 @@ public class Login {
         Main.loginUI = new LoginUI(db_list);
     }
     public static void ontrylog(String username,String password){
-        if(getMsqldata(username, password) == 1){
+        if(getMsqldata(username, password,make_uuid()) == 1){
             try {
                 Msql.connect();
             }catch (SQLException e){
@@ -68,16 +68,28 @@ public class Login {
             //something is fucked
         }
     }
-    public static int getMsqldata(String username,String password){
+    public static int getMsqldata(String username,String password,String uuid){
         try {
-            String response = test("%"+username+"%%"+password+"%");
+            String response = test("%"+username+"%%"+password+"%%"+uuid+"%");
             if(response.equals("failed")){
                 JOptionPane.showMessageDialog(null,"Your Login Data seems to be wrong");
-                System.exit(4);
+                System.exit(87);
             }else{
+                if(response.equals("banned")){
+                    JOptionPane.showMessageDialog(null,"Your are Banned from using this System");
+                    System.exit(88);
+                }
+                if(response.equals("wronguuid")){
+                    JOptionPane.showMessageDialog(null,"Your uuid does not match");
+                    System.exit(89);
+                }
+                if(response.startsWith("say ")){
+                    JOptionPane.showMessageDialog(null,response.replace("say ",""));
+                    System.exit(90);
+                }
                 if(response.equals("")){
                     JOptionPane.showMessageDialog(null,"The Server may be offline check your Configuration File");
-                    System.exit(5);
+                    System.exit(91);
                 }else{
                     String r_username = response.split("%")[1];
                     String r_password = response.split("%")[3];
@@ -101,8 +113,9 @@ public class Login {
         return null;
     }
     static String test(String login_data) throws IOException {
-        String ip = "127.0.0.1"; // localhost
-        int port = 11113;
+//        String ip = "ts3byalex.ddns.net"; // localhost
+        String ip = "127.0.0.1";
+        int port = 42069;
         java.net.Socket socket = new java.net.Socket(ip,port); // verbindet sich mit Server
         String zuSendendeNachricht = "Auth:"+login_data;
         schreibeNachricht(socket, zuSendendeNachricht);
@@ -128,5 +141,8 @@ public class Login {
         int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
         String nachricht = new String(buffer, 0, anzahlZeichen);
         return nachricht;
+    }
+    static String make_uuid(){
+        return HWID.bytesToHex(HWID.generateHWID());
     }
 }

@@ -38,7 +38,7 @@ public class updater {
 //                    }
                     if(!br.readLine().equals(Main.ver)){
                         br.close();
-                        System.out.println(Main.ver+"|"+br.readLine());
+                        //System.out.println(Main.ver+"|"+br.readLine());
                         if(Files.exists(Paths.get(temp.getAbsolutePath()))){
                             Files.delete(Paths.get(temp.getAbsolutePath()));
                         }else{
@@ -46,7 +46,11 @@ public class updater {
                         }
                         System.out.println("Newer Version Availible");
                         String Filename = JOptionPane.showInputDialog(null,"type name of the new updated jar in","New Update",JOptionPane.QUESTION_MESSAGE);
-                        if(Filename.equals("null") || Filename.equals("")){
+                        try {
+                            if(Filename.equals("null") || Filename.equals("")){
+                                System.exit(404);
+                            }
+                        }catch (NullPointerException e){
                             System.exit(403);
                         }
                         Libarys.download("http://ts3byalex.ddns.net/pw/Geld_Managment.jar",System.getProperty("user.dir")+"\\"+Filename+".jar");

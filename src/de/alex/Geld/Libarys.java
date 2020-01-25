@@ -1,7 +1,7 @@
 package de.alex.Geld;
 
 import Exception.NotImpemented;
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class Libarys {
     private static String cText = "";
-    public static void printf(@NotNull String Text,@NotNull Boolean Con,@NotNull Boolean Gui,Boolean log){
+    public static void printf(@NotNull String Text, @NotNull Boolean Con, @NotNull Boolean Gui, Boolean log){
 
         if(Con){
             System.out.println(Text);

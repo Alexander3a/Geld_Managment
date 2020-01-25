@@ -1,6 +1,6 @@
 package de.alex.Geld;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 public class User extends Users{
     private String Username;
@@ -15,7 +15,7 @@ public class User extends Users{
     private int Version;
     private Boolean Banned;
     private Boolean Read_only;
-    public User(@NotNull String Username,@NotNull String password,@NotNull String uuid,Boolean Admin,Boolean Silent,Boolean Debug,Boolean Log,int Version,@NotNull Boolean Banned,@NotNull Boolean read_only){
+    public User(@NotNull String Username, @NotNull String password, @NotNull String uuid, Boolean Admin, Boolean Silent, Boolean Debug, Boolean Log, int Version, @NotNull Boolean Banned, @NotNull Boolean read_only){
         this.Username = Username;
         this.password = password;
         this.uuid = uuid;

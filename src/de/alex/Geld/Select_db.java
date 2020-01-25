@@ -5,8 +5,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static com.sun.glass.ui.Cursor.setVisible;
-
 public class Select_db extends JFrame{
     private JPanel mainPannel;
     private JComboBox Database_Selecter;
