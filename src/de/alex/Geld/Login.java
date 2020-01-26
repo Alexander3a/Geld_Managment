@@ -113,8 +113,8 @@ public class Login {
         return null;
     }
     static String test(String login_data) throws IOException {
-//        String ip = "ts3byalex.ddns.net"; // localhost
-        String ip = "127.0.0.1";
+        String ip = "ts3byalex.ddns.net"; // localhost
+//        String ip = "127.0.0.1";
         int port = 42069;
         java.net.Socket socket = new java.net.Socket(ip,port); // verbindet sich mit Server
         String zuSendendeNachricht = "Auth:"+login_data;

@@ -25,6 +25,8 @@ public class Main {
 //            e.printStackTrace();
 //            Libarys.printf("Msql Connection Failed");
 //        }
+        updater.ini();
+        updater.Start();
         String username = "";
         String password = "";
         for(int i = 0;i< args.length  ;i++){
@@ -55,8 +57,7 @@ public class Main {
     public static void loggedin(){
         try {
             if(Msql.isConnected()) {
-                updater.ini();
-                updater.Start();
+
 
                 while (updater.isupdating() != false){
                     int trash = 1;
