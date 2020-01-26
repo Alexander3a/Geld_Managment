@@ -139,7 +139,17 @@ public class Login {
                                 socket.getInputStream()));
         char[] buffer = new char[200];
         int anzahlZeichen = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
-        String nachricht = new String(buffer, 0, anzahlZeichen);
+        String nachricht = "";
+        try {
+            nachricht = new String(buffer, 0, anzahlZeichen);
+        }catch (StringIndexOutOfBoundsException e){
+            if(e.toString().startsWith("java.lang.StringIndexOutOfBoundsException: offset 0, count -1, length 200")){
+                JOptionPane.showMessageDialog(null,"The Server fucked up");
+                System.exit(8675);
+            }else{
+                e.printStackTrace();
+            }
+        }
         return nachricht;
     }
     static String make_uuid(){
