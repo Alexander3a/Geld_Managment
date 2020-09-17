@@ -2,6 +2,8 @@ package de.alex.Geld;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 public class User extends Users{
     private String Username;
     private String password;
@@ -15,6 +17,7 @@ public class User extends Users{
     private int Version;
     private Boolean Banned;
     private Boolean Read_only;
+    HashMap Perms_per_db = new HashMap<String,Perms>();
     public User(@NotNull String Username, @NotNull String password, @NotNull String uuid, Boolean Admin, Boolean Silent, Boolean Debug, Boolean Log, int Version, @NotNull Boolean Banned, @NotNull Boolean read_only){
         this.Username = Username;
         this.password = password;
@@ -28,6 +31,14 @@ public class User extends Users{
         this.Version = Version;
         this.Banned = Banned;
         this.Read_only = read_only;
+    }
+
+    public HashMap getPerms_per_db() {
+        return Perms_per_db;
+    }
+
+    public void setPerms_per_db(HashMap perms_per_db) {
+        Perms_per_db = perms_per_db;
     }
 
     public String getUsername() {

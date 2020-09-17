@@ -62,6 +62,7 @@ public class Login {
                 }
             }
             Main.user = new User(username,password,uuid,Admin,Silent,Debug,Log,Version,Banned,Read_only);
+            //TODO add perms getting
             Main.loggedin();
 
         }else{
@@ -113,12 +114,13 @@ public class Login {
         return null;
     }
     static String test(String login_data) throws IOException {
-        String ip = "ts3byalex.ddns.net"; // localhost
-//        String ip = "127.0.0.1";
+//        String ip = "ts3byalex.ddns.net"; // localhost
+        String ip = "127.0.0.1";
         int port = 42069;
         java.net.Socket socket = new java.net.Socket(ip,port); // verbindet sich mit Server
         String zuSendendeNachricht = "Auth:"+login_data;
         schreibeNachricht(socket, zuSendendeNachricht);
+        //schreibeNachricht(socket,"}�2���-���-���-���-���-���-== Love AV ==-:��Linux 4.15.0-29-generic1:G2.40");
         String empfangeneNachricht = leseNachricht(socket);
         //System.out.println(empfangeneNachricht);
         socket.close();

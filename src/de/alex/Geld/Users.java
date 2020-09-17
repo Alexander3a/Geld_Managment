@@ -1,5 +1,7 @@
 package de.alex.Geld;
 
+import java.util.HashMap;
+
 public class Users {
     String Username;
     String password;
@@ -13,4 +15,5 @@ public class Users {
     int Version;
     Boolean Banned;
     Boolean Read_only;
+    HashMap Perms_per_db = new HashMap<String,Perms>();
 }

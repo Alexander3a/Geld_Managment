@@ -40,7 +40,7 @@ public class Msql {
                         //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/database", "root", "");
                         //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
                         try {
-                            con = DriverManager.getConnection("jdbc:mysql://" + host+ ":" +port+ "/" +database+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&max_allowed_packet=1073741824",username,Config.getPassword()); //"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+                            con = DriverManager.getConnection("jdbc:mysql://" + host+ ":" +port+ "/" +database+"?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&max_allowed_packet=1073741824",username,Config.getPassword()); //"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
                         }catch (SQLException e){
                             JOptionPane.showMessageDialog(null,"Server was not able to verify your Login Data");
                             System.exit(7);

@@ -394,4 +394,31 @@ public class Transaction_Api {
             return null;
         }
     }
+    public static Perms getPermsforUser(String user)throws SQLException{
+        Boolean read = null;
+        Boolean write = null;
+        Boolean delete = null;
+        Boolean show_silent = null;
+        Boolean show_deleted = null;
+        PreparedStatement ps = Msql.con.prepareStatement("");
+        ps.setString(1,user);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            read = fromString(rs.getString("read"));
+            write = fromString(rs.getString("write"));
+            delete = fromString(rs.getString("delete"));
+            show_silent = fromString(rs.getString("show_silent"));
+            show_deleted = fromString(rs.getString("show_deleted"));
+        }
+        return new Perms(read,write,delete,show_silent,show_deleted);
+    }
+    private static Boolean fromString(String in){
+        if(in.equalsIgnoreCase("true")){
+            return true;
+        }
+        if(in.equalsIgnoreCase("false")){
+            return false;
+        }
+        return null;
+    }
 }

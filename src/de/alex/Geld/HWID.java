@@ -11,9 +11,9 @@ public class HWID {
             MessageDigest hash = MessageDigest.getInstance("MD5");
 
             String s = System.getProperty("os.name") +
-                    System.getProperty("os.arch") +
-                    System.getProperty("os.version") +
-                    Runtime.getRuntime().availableProcessors() +
+//                    System.getProperty("os.arch") +
+//                    System.getProperty("os.version") +
+//                    Runtime.getRuntime().availableProcessors() +
                     System.getenv("PROCESSOR_IDENTIFIER") +
                     System.getenv("PROCESSOR_ARCHITECTURE") +
                     System.getenv("PROCESSOR_ARCHITEW6432") +
